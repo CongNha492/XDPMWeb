@@ -1,0 +1,62 @@
+﻿@model shopOnline.Models.Category
+
+@{
+    ViewData["Title"] = "Sửa danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 font-size-18">Quản lý danh mục</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a>Quản lý danh mục</a></li>
+                    <li class="breadcrumb-item active">Sửa danh mục</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <a class="btn btn-outline-success waves-effect waves-light" asp-action="Index">Quay lại</a>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CategoryId" />
+                            <input type="hidden" asp-for="Deleted" />
+                            <div class="form-group">
+                                <label class="control-label">Tên danh mục</label>
+                                <input asp-for="CategoryName" class="form-control" />
+                                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Published" /> Hiển thị
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Lưu" class="btn btn-outline-primary waves-effect waves-light" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+

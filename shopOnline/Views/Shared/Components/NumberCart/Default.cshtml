@@ -1,0 +1,9 @@
+﻿@model List<shopOnline.Models.CartItem>
+@if (Model != null && Model.Count() > 0)
+{
+    <span id="amountCart">@Model.Sum(x => x.amount)</span>
+}
+else
+{
+    <span id="amountCart">0</span>
+}

@@ -1,0 +1,5 @@
+﻿<option disabled selected>Chọn Phường/Xã</option>
+@foreach (Ward item in ViewBag.wards)
+{
+    <option value="@item.Code">@item.Name</option>
+}

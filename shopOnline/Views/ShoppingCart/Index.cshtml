@@ -1,0 +1,103 @@
+﻿@model List<shopOnline.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Thông tin giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="cart-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model.Count == 0)
+                {
+                    <h3>Không có sản phẩm nào trong giỏ hàng</h3>
+                }
+                else
+                {
+                    <form class="woocommerce-cart-form" action="#">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th class="product-name-thumbnail">Tên sản phẩm</th>
+                                    <th class="product-price">Giá</th>
+                                    <th class="product-quantity">Số lượng</th>
+                                    <th class="product-total">Tổng</th>
+                                    <th class="product-remove">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (CartItem item in Model)
+                                {
+                                    <tr class="cart-item" id="@item.product.Id">
+                                        <td class="product-thumbnail-title">
+                                            <a href="#">
+                                                <img src="/images/products/@item.product.Image" alt="">
+                                            </a>
+                                            <a class="product-name" href="#">@item.product.ProductName</a>
+                                        </td>
+                                        <td class="product-unit-price">
+                                            <div class="product-price clearfix">
+                                                <span class="price">
+                                                    <span><span class="woocommerce-Price-currencySymbol"></span>@item.product.ProductPrice.Value.ToString("#,##0") VNĐ</span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="product-quantity clearfix">
+                                            <div class="quantityd clearfix">
+                                                <button class="qtyBtn btnMinus" onclick="update_cart(@item.product.Id, -2)"><span>-</span></button>
+                                                <input value="@item.amount" id="input_@item.product.Id" onchange="update_cart(@item.product.Id, -3)" class="input-text qty text carqty" type="text">
+                                                <button class="qtyBtn btnPlus" onclick="update_cart(@item.product.Id, -1)">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="product-total">
+                                            <div class="product-price clearfix">
+                                                <span class="price">
+                                                    <span><span class="woocommerce-Price-currencySymbol"></span>@item.TotalMoney.ToString("#,##0") VNĐ</span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="product-remove">
+                                            <a href="javascript:remove_product_in_cart(@item.product.Id)"></a>
+                                        </td>
+                                    </tr>
+                                }
+
+                                <tr>
+                                    <td colspan="6" class="actions">
+                                        <button onclick="remove_cart()" type="button" class="button clear-cart">Xóa giỏ hàng</button>
+                                        <a type="submit" asp-controller="Home" asp-action="Index" class="button continue-shopping">Tiếp tục mua hàng</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cart-totals">
+                            <h2>Số tiền thanh toán</h2>
+                            <table class="shop-table">
+                                <tbody>
+                                    @*<tr class="cart-subtotal">
+                                        <th>Phí vận chuyển</th>
+                                        <td data-title="Subtotal">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"></span>@ViewBag.fee</span>
+                                        </td>
+                                    </tr>*@
+                                    <tr class="order-total">
+                                        <th>Tổng tiền</th>
+                                        <td data-title="Subtotal">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"></span>@Model.Sum(x => x.TotalMoney).ToString("#,##0") VNĐ</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="wc-proceed-to-checkout">
+                                <a asp-controller="ShoppingCart" asp-action="checkout" class="checkout-button">Tiến hành thanh toán</a>
+                            </div>
+                        </div>
+                    </form> 
+                }
+            </div>
+        </div>
+    </div>
+</section>

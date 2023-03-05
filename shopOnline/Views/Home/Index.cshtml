@@ -1,0 +1,71 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<shopOnline.Models.Product>
+@{
+    ViewData["TiTle"] = "Shop Online";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int PageCurrent = ViewBag.CurrentPage;
+    int PageNext = PageCurrent + 1;
+}
+
+<section class="shop-fullwidth">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="product-cate">
+                    <h5>Loại</h5>
+                    <ul>
+                        <li><a class="@(ViewBag.catID == -1 ? "active" : "")" href="/">Tất cả</a></li>
+                        @foreach (Category item in ViewBag.Category)
+                        {
+                            <li><a class="@(ViewBag.catID == item.CategoryId ? "active" : "")" href="?catID=@item.CategoryId">@item.CategoryName</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <input type="search" name="search" id="search" placeholder="Search...">
+                <button type="button" onclick="search_click()"><i class="twi-search"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (Product item in Model)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="single-shop-product">
+                        <div class="sp-thumb">
+                            <img src="/images/products/@item.Image" alt="" class="">
+                        </div>
+                        <div class="sp-details">
+                            <h4>@item.ProductName</h4>
+                            <div class="product-price clearfix">
+                                <span class="price">
+                                    <ins><span><span class="woocommerce-Price-currencySymbol"></span>@item.ProductPrice.Value.ToString("#,##0") VNĐ</span></ins>
+                                </span>
+                            </div>
+                            <div class="sp-details-hover">
+                                <a class="sp-cart" href="javascript:add_to_cart(@item.Id, 1);"><i class="twi-cart-plus"></i><span>Thêm vào giỏ hàng</span></a>
+                                <a class="sp-cart" asp-controller="Home" asp-action="Details" asp-route-id="@item.Id"><i></i><span>Chi tiết</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="pagination-area pt-10">
+        <ul class="pagination justify-content-center">
+            <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-route-catID="@(ViewBag.catID == -1 ? "" : ViewBag.catID)" asp-route-search="@ViewBag.search" />
+        </ul>
+    </div>
+</section>
+
+
+<script>
+    function search_click() {
+        value = document.getElementById("search").value;
+        var url = new URL(location.href);
+        url.searchParams.append('search', value);
+        url.searchParams.set('search', value);
+        location.href = url.toString();
+    }
+</script>

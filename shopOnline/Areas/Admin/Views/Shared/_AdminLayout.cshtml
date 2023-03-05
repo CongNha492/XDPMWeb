@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="ShopOnline Admin" name="description" />
+    <meta content="ShopOnline" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/Adminassets/images/favicon.ico">
+    <!-- Plugins css -->
+    <link href="/Adminplugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminplugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminplugins/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminplugins/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminplugins/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <link href="/Adminassets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminassets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Adminassets/css/theme.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <div class="main-content">
+            <header id="page-topbar">
+                <button type="button" class="btn btn-sm mr-2 font-size-16 d-lg-none header-item waves-effect waves-light" data-toggle="collapse" data-target="#topnav-menu-content">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
+            </header>
+
+            <div class="topnav">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+
+                        <div class="collapse navbar-collapse" id="topnav-menu-content">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                                        <i class="mdi mdi-home-analytics"></i>Dashboard
+                                    </a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-diamond-stone"></i>Quản lý đơn hàng<div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Index" asp-route-confirmed="false" class="dropdown-item">Đơn hàng đợi xác nhận</a>
+                                        <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Index" asp-route-confirmed="true" class="dropdown-item">Đơn hàng đã xác nhận</a>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-format-page-break"></i>Quản lý sản phẩm<div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                        <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Create" class="dropdown-item">Thêm sản phẩm</a>
+                                        <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Index" class="dropdown-item">Sửa xóa sản phẩm</a>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-forms" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-format-list-bulleted-type"></i>Quản lí danh mục<div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-forms">
+                                        <a asp-area="Admin" asp-controller="AdminCategories" asp-action="Create" class="dropdown-item">Thêm danh mục</a>
+                                        <a asp-area="Admin" asp-controller="AdminCategories" asp-action="Index" class="dropdown-item">Sửa xóa danh mục</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center text-lg-left">
+                                ShopOnline
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-right d-none d-lg-block">
+                                Thiết kế và phát triển bởi nhóm 4 XDPMWeb ca sáng thứ 2 và 4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    <!-- jQuery  -->
+    <script src="/Adminassets/js/jquery.min.js"></script>
+    <script src="/Adminassets/js/bootstrap.bundle.min.js"></script>
+    <script src="/Adminassets/js/waves.js"></script>
+    <script src="/Adminassets/js/simplebar.min.js"></script>
+
+    <!-- Sparkline Js-->
+    <script src="/Adminplugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Js-->
+    <script src="/Adminplugins/jquery-knob/jquery.knob.min.js"></script>
+
+    <!-- Chart Custom Js-->
+    <script src="/Adminassets/pages/knob-chart-demo.js"></script>
+
+    <!-- Morris Js-->
+    <script src="/Adminplugins/morris-js/morris.min.js"></script>
+
+    <!-- Raphael Js-->
+    <script src="/Adminplugins/raphael/raphael.min.js"></script>
+
+    <!-- Custom Js -->
+    <script src="/Adminassets/pages/dashboard-demo.js"></script>
+
+    <!-- App js -->
+    <script src="/Adminassets/js/theme.js"></script>
+
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+﻿@model shopOnline.Models.Product
+
+@{
+    ViewData["Title"] = "Sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 font-size-18">Quản lý sản phẩm</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a>Quản lý sản phẩm</a></li>
+                    <li class="breadcrumb-item active">Sửa sản phẩm</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a class="btn btn-outline-success waves-effect waves-light" asp-action="Index">Quay lại</a>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="Image" />
+                            <input type="hidden" asp-for="Deleted" />
+                            <div class="form-group">
+                                <label class="control-label">Tên sản phẩm</label>
+                                <input asp-for="ProductName" class="form-control" />
+                                <span asp-validation-for="ProductName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Loại sản phẩm</label>
+                                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Giá</label>
+                                <input asp-for="ProductPrice" class="form-control"/>
+                                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Ảnh</label>
+                                <input name="fImage" type="file" class="form-control-file" asp-for="Image" />
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Khối lượng</label>
+                                <input asp-for="Weight" class="form-control" />
+                                <span asp-validation-for="Weight" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Mô tả</label>
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Thương hiệu</label>
+                                <input asp-for="BrandName" class="form-control" />
+                                <span asp-validation-for="BrandName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Published" /> Hiển thị
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Lưu" class="btn btn-outline-primary waves-effect waves-light" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+
+
+
+
+
+
+

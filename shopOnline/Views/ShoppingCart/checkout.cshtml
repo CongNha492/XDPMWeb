@@ -1,0 +1,208 @@
+﻿@model shopOnline.Models.Order
+@{
+    ViewData["Title"] = "Thông tin thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<CartItem> GioHang = ViewBag.GioHang;
+    int totalSumMoney = GioHang.Sum(x => x.TotalMoney);
+}
+
+<section class="checkout-section">
+    <div class="container">
+        <form method="post" asp-action="Order">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="woocommerce-billing-fields">
+                        <h3>Thông tin thanh toán</h3>
+                        <div class="row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <p class="col-lg-12">
+                                <label>Họ và tên</label>
+                                <input placeholder="" name="CustomerName" type="text">
+                                <span asp-validation-for="CustomerName" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-12">
+                                <label>Thành phố/Tỉnh</label>
+                                <select asp-items="ViewBag.provinces" id="province" onchange="province_change()" class="form-control" asp-for="CustomerProvinceCode">
+                                    <option disabled selected>Chọn Thành phố/Tỉnh</option>
+                                </select>
+                                <span asp-validation-for="CustomerProvinceCode" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-12">
+                                <label>Quận/Huyện</label>
+                                <select id="district" onchange="district_change()" class="form-control" asp-for="CustomerDistrictCode"></select>
+                                <span asp-validation-for="CustomerDistrictCode" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-12">
+                                <label>Phường/Xã</label>
+                                <select id="ward" asp-for="CustomerWardCode" class="form-control"></select>
+                                <span asp-validation-for="CustomerWardCode" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-12">
+                                <label>Tên đường, số nhà</label>
+                                <input placeholder="" asp-for="CustomerAddress" type="text">
+                                <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-4">
+                                <label>Số điện thoại</label>
+                                <input placeholder="" asp-for="CustomerTel" type="tel">
+                                <span asp-validation-for="CustomerTel" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-8">
+                                <label>Email</label>
+                                <input placeholder="" asp-for="CustomerEmail" type="email">
+                                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                            </p>
+                            <p class="col-lg-12">
+                                <label>Ghi chú (không bắt buộc)</label>
+                                <textarea placeholder="" asp-for="Note"></textarea>
+                                <span asp-validation-for="Note" class="text-danger"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="woocommerce-checkout-review-order" id="order_review">
+                        <h3>Đơn hàng của bạn</h3>
+                        <table class="check-table woocommerce-checkout-review-order-table">
+                            <thead>
+                                <tr>
+                                    <th class="product-name">Sản phẩm</th>
+                                    <th class="product-total"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (CartItem item in GioHang)
+                                {
+                                    <tr class="cart-item">
+                                        <td class="product-name">@item.product.ProductName x @item.amount</td>
+                                        <td class="product-total">
+                                            <div class="product-price clearfix">
+                                                <span class="price">
+                                                    <span><span class="woocommerce-Price-currencySymbol"></span>@item.product.ProductPrice.Value.ToString("#,##0") VNĐ</span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="cart-subtotal">
+                                    <th>Tổng</th>
+                                    <td>
+                                        <div class="product-price clearfix">
+                                            <span class="price">
+                                                <span><span class="woocommerce-Price-currencySymbol"></span>@totalSumMoney.ToString("#,##0") VNĐ</span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="cart-subtotal">
+                                    <th>Phí vận chuyển</th>
+                                    <td>
+                                        <div class="product-price clearfix">
+                                            <span class="price">
+                                                <span><span class="woocommerce-Price-currencySymbol"></span><span id="feeship">0 VNĐ</span></span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Số tiền thanh toán</th>
+                                    <td>
+                                        <div class="product-price clearfix">
+                                            <span class="price">
+                                                <span><span class="woocommerce-Price-currencySymbol"></span><span id="sumtotal" data-sumtotal-default="@totalSumMoney">@totalSumMoney.ToString("#,##0") VNĐ</span></span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="woocommerce-checkout-payment" id="payment">
+                            <ul class="wc_payment_methods payment_methods methods">
+                                @if (totalSumMoney < 20000000)
+                                {
+                                    <li class="wc_payment_method payment_method_bacs">
+                                        <input checked="checked" value="false" asp-for="Prepaid" class="input-radio" id="payment_method_bacs" type="radio">
+                                        <label for="payment_method_bacs">Thanh toán khi nhận hàng</label>
+                                    </li>
+                                    <li class="wc_payment_method payment_method_cod">
+                                        <input value="true" asp-for="Prepaid" class="input-radio" id="payment_method_cod" type="radio">
+                                        <label for="payment_method_cod">Chuyển khoản</label>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="https://sandbox.vnpayment.vn/apis/vnpay-demo/#th%C3%B4ng-tin-th%E1%BA%BB-test">Thẻ test chuyển khoản</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <span>
+                                        Đơn hàng lớn hàng 20,000,000 không thể thanh toán<br />
+                                        Nếu bạn muốn đặt hàng vui lòng liên hệ cho chúng tôi.
+                                    </span>
+                                }
+                            </ul>
+                        </div>
+                        <div class="place-order">
+                            <button type="submit" class="button">Đặt hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script>
+        function province_change() {
+            const code = document.getElementById("province").value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("district").innerHTML = xhttp.responseText;
+                document.getElementById("ward").innerHTML = "";
+            }
+
+            const strUrl = "/getlistdistricts?provinceCode=" + code;
+            xhttp.open("GET", strUrl);
+            xhttp.send();
+        }
+        function district_change() {
+            const code = document.getElementById("district").value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("ward").innerHTML = xhttp.responseText;
+                tinhPhiShip();
+            }
+
+            const strUrl = "/getlistwards?districtCode=" + code;
+            xhttp.open("GET", strUrl);
+            xhttp.send();
+        }
+
+        function formatNumber(n) {
+            var nf = Intl.NumberFormat();
+            return (nf.format(n).replaceAll(".", ",") + " VNĐ");
+        }
+
+        function tinhPhiShip() {
+            const province_code = document.getElementById("province").value;
+            const district_code = document.getElementById("district").value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                feeship = Number(xhttp.responseText);
+                document.getElementById("feeship").innerHTML = formatNumber(feeship);
+                sumtotal = document.getElementById("sumtotal");
+                sumtotal.innerHTML = formatNumber(Number(sumtotal.getAttribute("data-sumtotal-default")) + feeship);
+            }
+
+            const strUrl = "/api/getfeeship?province_code=" + province_code + "&district_code=" + district_code;
+            xhttp.open("GET", strUrl);
+            xhttp.send();
+        }
+    </script>
+}

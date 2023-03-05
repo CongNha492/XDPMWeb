@@ -1,0 +1,5 @@
+﻿<option disabled selected>Chọn Quận/Huyện</option>
+@foreach (District item in ViewBag.districts)
+{
+    <option value="@item.Code">@item.Name</option>
+}

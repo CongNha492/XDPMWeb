@@ -1,0 +1,92 @@
+﻿@model shopOnline.Models.Order
+@{
+    ViewData["Title"] = "Tra cứu đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <form method="get">
+            <input type="number" class="col-lg-5" name="id" placeholder="Nhập mã đơn hàng cần tra cứu">
+            <button type="submit" class="col-lg-1"><i class="twi-search"></i></button>
+        </form><br />
+        @if (Model != null)
+        {
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Mã đơn hàng</td>
+                        <td>@Model.OrderId</td>
+                    </tr>
+                    <tr>
+                        <td>Thông tin khách hàng</td>
+                        <td>
+                            @Model.CustomerName<br />
+                            @Model.CustomerTel<br />
+                            @Model.CustomerEmail<br />
+                            @Model.CustomerAddress - @ViewBag.w - @ViewBag.d - @ViewBag.p
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ngày đặt hàng</td>
+                        <td>@Model.OrderDate</td>
+                    </tr>
+                    <tr>
+                        <td>Số tiền thanh toán</td>
+                        <td>
+                            @{
+                                int soTienThanhToan = Model.TotalMoney + Model.FeeshipGhtk.Value;
+                            }
+                            @soTienThanhToan.ToString("#,##0") VNĐ<br />
+                            @(Model.Prepaid ? "Đã thanh toán" : "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ghi chú</td>
+                        <td>
+                            @Model.Note
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Trạng thái</td>
+                        <td>@ViewBag.status</td>
+                    </tr>
+                    <tr>
+                        <td>Ngày giao</td>
+                        <td>@ViewBag.deliver_date</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Danh sách sản phẩm</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Tên sản phẩm</td>
+                        <td>Giá sản phẩm</td>
+                        <td>Số lượng</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (OrderDetail item in ViewBag.OrderDetails)
+                    {
+                        <tr>
+                            <td>
+                                <a target="_blank" asp-action="Details" asp-route-id="@item.Product.Id">@item.Product.ProductName</a>
+                            </td>
+                            <td>@item.Product.ProductPrice.Value.ToString("#,##0") VNĐ</td>
+                            <td>@item.Quantity</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+        else if (ViewBag.id != 0)
+        {
+            <h3>Không tìm thấy đơn hàng có mã @ViewBag.id</h3>
+        }
+    </div>
+</div>
+<br />

@@ -1,0 +1,85 @@
+﻿@model shopOnline.Models.Product
+
+@{
+    ViewData["Title"] = "Thông tin sản phẩm " + Model.ProductName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="single-product-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12">
+                <div id="product-slider" class="carousel slide product-slider" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="ps-img">
+                                <img src="/images/products/@Model.Image" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12">
+                <div class="sin-product-details">
+                    <h3>@Model.ProductName</h3>
+                    <div class="product-price clearfix">
+                        <span class="price">
+                            <span><span class="woocommerce-Price-currencySymbol"></span>@Model.ProductPrice.Value.ToString("#,##0") VNĐ</span>
+                        </span>
+                    </div>
+                    <div class="pro-excerp">
+                        <p class="font-weight-bold">
+                            Loại : @Model.Category.CategoryName
+                        </p>
+                        <p class="font-weight-bold">
+                            Khối lượng : @Model.Weight kg
+                        </p>
+                        <p class="font-weight-bold">
+                            Mô tả : @Model.Description
+                        </p>
+                    </div>
+                    <div class="product-cart-qty">
+                        <div class="quantityd clearfix">
+                            <button class="qtyBtn btnMinus"><span>-</span></button>
+                            <input id="amountD" value="1" class="input-text qty text carqty" type="text">
+                            <button class="qtyBtn btnPlus">+</button>
+                        </div>
+                        <a href="javascript:add_to_cart(@Model.Id, -1);" class="add-to-cart-btn">Thêm vào giỏ hàng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row"><div class="col-lg-12"><div class="divider"></div></div></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="related-product-area">
+                    <h3>Sản phẩm tương tự</h3>
+                    <div class="related-slider owl-carousel">
+                        @foreach (Product item in ViewBag.related_products)
+                        {
+                            <div class="single-shop-product">
+                                <div class="sp-thumb">
+                                    <img src="/images/products/@item.Image" alt="" class="">
+                                </div>
+                                <div class="sp-details">
+                                    <h4>@item.ProductName</h4>
+                                    <div class="product-price clearfix">
+                                        <span class="price">
+                                            <ins><span><span class="woocommerce-Price-currencySymbol"></span>@item.ProductPrice.Value.ToString("#,##0") VNĐ</span></ins>
+                                        </span>
+                                    </div>
+                                    <div class="sp-details-hover">
+                                        <a class="sp-cart" href="javascript:add_to_cart(@item.Id, 1);"><i class="twi-cart-plus"></i><span>Thêm vào giỏ hàng</span></a>
+                                        <a class="sp-cart" asp-controller="Home" asp-action="Details" asp-route-id="@item.Id"><i></i><span>Chi tiết</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

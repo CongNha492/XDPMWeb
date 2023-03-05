@@ -1,0 +1,80 @@
+﻿@model IEnumerable<shopOnline.Models.Category>
+
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 font-size-18">Quản lý danh mục</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a>Quản lý danh mục</a></li>
+                    <li class="breadcrumb-item active">Sửa xóa danh mục</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="basic-datatable" class="table dt-responsive nowrap">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Hiển thị</th>
+                            <th>#</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (Category item in Model)
+                        {
+                            <tr>
+                                <td>@item.CategoryId</td>
+                                <td>@item.CategoryName</td>
+                                <td>@(item.Published ? "bật" : "tắt")</td>
+                                <td>
+                                    <a class="btn btn-outline-primary waves-effect waves-light" asp-area="Admin" asp-controller="AdminCategories" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</a>
+                                    <a class="btn btn-outline-danger waves-effect waves-light" asp-area="Admin" asp-controller="AdminCategories" asp-action="Delete" asp-route-id="@item.CategoryId">Xóa</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+
+
+@section Scripts {
+    <script src="/Adminplugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Adminplugins/datatables/dataTables.bootstrap4.js"></script>
+    <script src="/Adminplugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Adminplugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script src="/Adminplugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Adminplugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Adminplugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Adminplugins/datatables/buttons.flash.min.js"></script>
+    <script src="/Adminplugins/datatables/buttons.print.min.js"></script>
+    <script src="/Adminplugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="/Adminplugins/datatables/dataTables.select.min.js"></script>
+    <script src="/Adminplugins/datatables/pdfmake.min.js"></script>
+    <script src="/Adminplugins/datatables/vfs_fonts.js"></script>
+    <script src="/Adminassets/pages/datatables-demo.js"></script>
+}

@@ -1,0 +1,122 @@
+﻿@model shopOnline.Models.Order
+
+@{
+    ViewData["Title"] = "Thông tin đơn hàng ID " + Model.OrderId;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<OrderDetail> orderDetails = ViewBag.OrderDetails;
+}
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 font-size-18">Quản lý đơn hàng</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a>Quản lý đơn hàng</a></li>
+                    <li class="breadcrumb-item active">Thông tin đơn hàng ID @Model.OrderId</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a class="btn btn-outline-success waves-effect waves-light" asp-action="Index" asp-route-confirmed="@Model.Confirmed">Quay lại</a>
+                </div>
+
+                <h3>Thông tin đơn hàng tổng quát</h3>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Mã đơn hàng</td>
+                            <td>@Model.OrderId</td>
+                        </tr>
+                        <tr>
+                            <td>Thông tin khách hàng</td>
+                            <td>
+                                @Model.CustomerName<br />
+                                @Model.CustomerTel<br />
+                                @Model.CustomerEmail<br />
+                                @Model.CustomerAddress - @ViewBag.w - @ViewBag.d - @ViewBag.p
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ngày đặt hàng</td>
+                            <td>@Model.OrderDate.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
+                        </tr>
+                        <tr>
+                            <td>Tổng khối lượng</td>
+                            <td>
+                                @orderDetails.Sum(x => (x.Product.Weight.Value * x.Quantity)).ToString("#.##") kg<br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Phí ship</td>
+                            <td>
+                                @Model.FeeshipGhtk.Value.ToString("#,##0") VNĐ<br />
+                                @(Model.Prepaid ? "Đã thanh toán" : "")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tổng tiền (không tính ship)</td>
+                            <td>
+                                @Model.TotalMoney.ToString("#,##0") VNĐ<br />
+                                @(Model.Prepaid ? "Đã thanh toán" : "")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ghi chú</td>
+                            <td>
+                                @Model.Note
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trạng thái</td>
+                            <td>@ViewBag.status</td>
+                        </tr>
+                        <tr>
+                            <td>Tin nhắn trạng thái</td>
+                            <td>@ViewBag.message</td>
+                        </tr>
+                        <tr>
+                            <td>Ngày giao</td>
+                            <td>@ViewBag.deliver_date</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Danh sách sản phẩm đã đặt</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Tên sản phẩm</td>
+                            <td>Giá sản phẩm</td>
+                            <td>Số lượng</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (OrderDetail item in orderDetails)
+                        {
+                        <tr>
+                            <td>
+                                <a target="_blank" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.Product.Id">@item.Product.ProductName</a>
+                            </td>
+                            <td>@item.Product.ProductPrice.Value.ToString("#,##0") VNĐ</td>
+                            <td>@item.Quantity</td>
+                            
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
